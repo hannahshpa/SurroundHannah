@@ -22,7 +22,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -74,14 +73,12 @@ public class ControllerPlayingActivity extends AppCompatActivity implements Seek
     ImageButton playButton;
     Croller croller;
     ImageView ivCover;
+    TextView tvArtist;
+    TextView tvTrack;
 
     ImageView ivDisconnect;
     ImageView ivConnect;
     Button disconnectBtn;
-    RelativeLayout lostConnection;
-    RelativeLayout loaderContainer;
-    RelativeLayout defaultContainer;
-
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
@@ -111,6 +108,10 @@ public class ControllerPlayingActivity extends AppCompatActivity implements Seek
                 .load(track.getDrawable())
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivCover);
+        tvTrack = findViewById(R.id.tvTrackName);
+        tvArtist = findViewById(R.id.tvArtistName);
+        tvTrack.setText(track.getName());
+        tvArtist.setText(track.getArtist());
 
 //        //TODO - uncomment to use old server design
 //        song = Parcels.unwrap(getIntent().getParcelableExtra("song"));
@@ -130,9 +131,6 @@ public class ControllerPlayingActivity extends AppCompatActivity implements Seek
         disconnectBtn = findViewById(R.id.disconnectBtn);
         ivConnect = findViewById(R.id.ivConnected);
         ivDisconnect = findViewById(R.id.ivDisconnected);
-        lostConnection = findViewById(R.id.lostConnectionContainer);
-        defaultContainer = findViewById(R.id.defaultContainer);
-        defaultContainer.setVisibility(View.VISIBLE);
 
         spinner.setVisibility(View.GONE);
         spinner.setMaxVol(100);
@@ -342,14 +340,14 @@ public class ControllerPlayingActivity extends AppCompatActivity implements Seek
                     throwing.saveInBackground();
                     spinner.setVisibility(View.VISIBLE);
                     croller.setVisibility(View.GONE);
-                    btnThrowSound.setText("Surround");
+                    btnThrowSound.setText("Surround Mode");
                 }
                 else {
                     throwing.setThrowing(false);
                     throwing.saveInBackground();
                     spinner.setVisibility(View.GONE);
                     croller.setVisibility(View.VISIBLE);
-                    btnThrowSound.setText("Throw");
+                    btnThrowSound.setText("Throw Sound");
                 }
 
                 //old server
@@ -435,7 +433,6 @@ public class ControllerPlayingActivity extends AppCompatActivity implements Seek
         }
     };
 
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -450,24 +447,21 @@ public class ControllerPlayingActivity extends AppCompatActivity implements Seek
             mp = null;
         }
         session.setConnected(false);
-        try {
-            session.delete();   //check
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        //TODO - should we just save so it won't mess with the deletes?
         session.saveInBackground();
-        finish();   //check
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         try {
+
             session.delete();
+            audioIDs.delete();
+            playPause.delete();
+            throwing.delete();
+            time.delete();
+            volume.delete();
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        finish();
+        finish();   //check
     }
 
 

@@ -108,7 +108,9 @@ public class SelectZone extends AppCompatActivity {
         });
 
         if(getIntent().hasExtra("source")) {
+            position = getIntent().getFloatExtra("position", 0);
             Intent intent = new Intent(SelectZone.this, SpeakerPlayingActivity.class);
+            intent.putExtra("position", position);
             startActivity(intent);
         }
 

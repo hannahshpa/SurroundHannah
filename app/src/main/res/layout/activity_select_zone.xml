@@ -33,25 +33,11 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvZoneChoice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/roboto"
-        android:text="  Locate Yourself"
-        android:textAlignment="textStart"
-        android:textColor="@android:color/white"
-        android:textSize="30sp" />
-
     <com.sdsmdg.harjot.crollerTest.Croller
         android:id="@+id/croller"
         android:layout_width="match_parent"
         android:layout_height="426dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvZoneChoice"
         app:back_circle_color="@android:color/transparent"
         android:layout_centerInParent="true"
         app:indicator_color="@color/colorAccent"
@@ -65,8 +51,8 @@
         android:id="@+id/tvBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-15dp"
         android:layout_below="@id/croller"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto"
         android:text="BACK"
@@ -76,9 +62,8 @@
     <TextView
         android:id="@+id/tvFrontCenter"
         android:layout_width="wrap_content"
+        android:layout_above="@id/croller"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvZoneChoice"
-        android:layout_marginTop="7dp"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto"
         android:text="FRONT"

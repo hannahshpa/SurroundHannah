@@ -303,36 +303,40 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
                 Log.d("SpeakerPlayingActivity", "created session subscription");
             }
         });
-        //do need to keep both update and delete
-        sessionSubscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new SubscriptionHandling.HandleEventCallback<Session>() {
-            @Override
-            public void onEvent(ParseQuery<Session> query, Session object) {
-                if(object.isConnected() == false) {
-                    pauseMPs(0);
-                    if (numControllers > 1) {
-                        pauseMPs(1);
-                    }
-                    releaseAll();
-                    nullAll();
-                    joining = false;
-                }
-            }
-        });
+//        //do need to keep both update and delete
+//        sessionSubscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new SubscriptionHandling.HandleEventCallback<Session>() {
+//            @Override
+//            public void onEvent(ParseQuery<Session> query, Session object) {
+//                if(object.isConnected() == false) {
+//                    pauseMPs(0);
+//                    if (numControllers > 1) {
+//                        pauseMPs(1);
+//                    }
+//                    releaseAll();
+//                    nullAll();
+//                }
+//            }
+//        });
 
         sessionSubscriptionHandling.handleEvent(SubscriptionHandling.Event.DELETE, new SubscriptionHandling.HandleEventCallback<Session>() {
             @Override
             public void onEvent(ParseQuery<Session> query, Session object) {
+                if(allMPs == null) {
+                    return;
+                }
+
                 pauseMPs(0);
                 if (numControllers > 1) {
                     pauseMPs(1);
                 }
-                releaseAll();
-                nullAll();
 
-                if(joining) {
-                    joining = false;
-                    recreateHandler.post(recreateRunnable);
+                if(allMPs != null && !allMPs.isEmpty()) {
+                    releaseAll();
                 }
+                if(allMPs != null) {
+                    nullAll();
+                }
+                recreateHandler.post(recreateRunnable);
             }
         });
 
@@ -398,7 +402,7 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
             @Override
             public void onEvent(ParseQuery<PlayPause> query, PlayPause object) {
                 Log.d("SpeakerPlayingActivity", "onEvent leave to disconnect in DELETE");
-                disconnect();
+
             }
         });
 
@@ -439,7 +443,6 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
             @Override
             public void onEvent(ParseQuery<Volume> query, Volume object) {
                 Log.d("SpeakerPlayingActivity", "onEvent leave to disconnect in DELETE");
-                disconnect();
             }
         });
         //if error in subscription handling, then call disconnect
@@ -528,7 +531,6 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
         timeSubscriptionHandling.handleEvent(SubscriptionHandling.Event.DELETE, new SubscriptionHandling.HandleEventCallback<Time>() {
             @Override
             public void onEvent(ParseQuery<Time> query, Time object) {
-                disconnect();
                 Log.d("speakerplaying", "handleerror");
             }
         });
@@ -617,7 +619,6 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
         throwingSubscriptionHandling.handleEvent(SubscriptionHandling.Event.DELETE, new SubscriptionHandling.HandleEventCallback<Throwing>() {
             @Override
             public void onEvent(ParseQuery<Throwing> query, Throwing object) {
-                disconnect();
                 Log.d("speakerplaying", "handleerror");
             }
         });
@@ -698,9 +699,9 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
     private Runnable recreateRunnable = new Runnable() {
         @Override
         public void run() {
-//            recreate();
             Intent restartIntent = new Intent(SpeakerPlayingActivity.this, SelectZone.class);
             restartIntent.putExtra("source", "SpeakerPlaying");
+            restartIntent.putExtra("position", position);
             startActivity(restartIntent);
             finish();
         }
@@ -804,14 +805,8 @@ public class SpeakerPlayingActivity extends AppCompatActivity {
 
     //TODO - CREATED
     private void nullAll(){
-        MediaPlayer m;
-        for (int i = 0; i < allMPs.size(); i++) {
-            if (!allMPs.isEmpty()) {
-                m = allMPs.get(i);
-                m = null;
-            }
-
-        }
+        allMPs.removeAll(allMPs);
+        allMPs = null;
     }
 
     //change time of media players with specified controller

@@ -8,11 +8,6 @@
     xmlns:circular="http://schemas.android.com/apk/res-auto"
     tools:context=".ControllerPlayingActivity">
 
-    <RelativeLayout
-        android:id="@+id/defaultContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
@@ -24,47 +19,69 @@
 
     <ImageView
         android:id="@+id/ivCoverArt"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="30dp"
+        android:layout_above="@id/tvTrackName"
+        android:layout_below="@id/disconnectBtn"
         android:scaleType="centerCrop"
         android:layout_centerInParent="true"
-        app:srcCompat="@android:color/white" />
+        app:srcCompat="@android:color/white"/>
 
     <com.sdsmdg.harjot.crollerTest.Croller
         android:id="@+id/croller"
         android:layout_width="match_parent"
-        android:layout_height="426dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
+        android:layout_height="match_parent"
+        android:layout_below="@id/disconnectBtn"
         app:back_circle_color="@android:color/transparent"
         app:indicator_color="@color/colorAccent"
         app:indicator_width="10"
         app:is_continuous="true"
+        android:layout_above="@id/tvTrackName"
         app:label_color="#000000"
         app:main_circle_color="@android:color/transparent"
         app:min="0"
         app:progress_primary_color="#BCA9E6"
         app:progress_secondary_color="#33ffffff"
-        app:start_offset="45" />
+        app:start_offset="45"/>
 
-    <com.example.bertogonz3000.surround.views.VolcationSpinner
-        android:id="@+id/spinner"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:padding="25dp" />
+        android:layout_above="@id/tvTrackName"
+        android:layout_below="@id/disconnectBtn"
+        android:layout_centerInParent="true">
+        <com.example.bertogonz3000.surround.views.VolcationSpinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:padding="15dp"/>
+
+    </RelativeLayout>
 
 
     <ImageButton
         android:id="@+id/playButton"
         android:layout_width="108dp"
         android:layout_height="81dp"
-        android:layout_below="@+id/seekBar"
+        android:layout_above="@+id/btnThrowSound"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-99dp"
         android:background="@android:color/transparent"
         android:elevation="10dp" />
 
+
+    <TextView
+        android:id="@+id/tvTrackName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvArtistName"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto"
+        android:text="tvTrackName"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/disconnectBtn"
@@ -81,24 +98,30 @@
 
     <Button
         android:id="@+id/btnThrowSound"
-        android:layout_width="101dp"
-        android:layout_height="wrap_content"
+        android:layout_width="364dp"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/roboto"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/filled_button"
+        android:fontFamily="@font/roboto_light"
         android:onClick="checkConnection"
-        android:text="Throw"
-        android:textColor="@color/colorAccent"
+        android:text="Throw Sound"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="344dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/playButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="99dp"
         android:progressDrawable="@drawable/durationprogress" />
 
     <TextView
@@ -107,7 +130,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/seekBar"
         android:layout_below="@+id/seekBar"
-        android:layout_marginTop="-99dp"
         android:fontFamily="@font/roboto"
         android:gravity="left"
         android:text="00:00"
@@ -119,10 +141,33 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/seekBar"
         android:layout_below="@+id/seekBar"
-        android:layout_marginTop="-99dp"
         android:gravity="right"
         android:text="02:54"
         android:textColor="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/replayButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/seekBar"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/tvStart"
+        android:layout_marginTop="3dp"
+        android:background="@android:color/transparent"
+        android:onClick="replay"
+        circular:srcCompat="@drawable/ic_replay_40" />
+
+    <TextView
+        android:id="@+id/tvArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/seekBar"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto"
+        android:text="tvArtist"
+        android:textColor="@color/halfWhite"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/ivDisconnected"
@@ -141,16 +186,5 @@
         android:layout_alignParentEnd="true"
         android:foregroundGravity="right" />
 
-    <ImageButton
-        android:id="@+id/replayButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/playButton"
-        android:layout_alignEnd="@+id/seekBar"
-        android:background="@android:color/transparent"
-        android:onClick="replay"
-        circular:srcCompat="@drawable/ic_replay_40" />
-
-    </RelativeLayout>
 
 </RelativeLayout>

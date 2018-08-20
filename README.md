@@ -1,4 +1,4 @@
-# FBU Surround App*
+# FBU Surround App
 
 **Platform:** Android mobile application
 
@@ -10,9 +10,13 @@ Many groups find themselves speakerless in situations that call for amplificatio
 
 ## Features
 •	Two roles: The “controller” phone selects the audio track and manipulates how it will be played on the “speaker” phones
+
 •	Audio playback of any audio file in up to 5.1 surround sound (pause, play, seek, restart, volume)
+
 •	Users on controller phones can move the sound from speaker phone to speaker phone in order to “throw” the sound around a space
+
 •	Speaker phones use a live query-enabled Parse server to listen for updates from the controller phones (global clock, play/pause, volume, location, etc.)
+
 •	Option to have multiple controllers play different audio tracks on the speaker phones
 
 ## Recognition
@@ -30,11 +34,6 @@ Controller Screens:
 
 Speaker Screens:
 ![Location](speaker1.JPG)
-
-
-## Notes
-
-Describe any challenges encountered while building the app.
 
 ## License
 
